@@ -4,14 +4,30 @@ from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition
 from kivy.properties import ObjectProperty
 from kivy.uix.videoplayer import VideoPlayer
+from kivy.core.audio import SoundLoader
 from kivy.uix.actionbar import ActionBar
 from kivy.uix.button import Button
+from kivy.uix.image import Image
+from kivy.uix.togglebutton import ToggleButton
 
 class ScreenThree(Screen):
+    def test_on_enter(self, audname):
+        self.sound = SoundLoader.load(audname)
+        self.sound.play()
+
+    def on_play(self):
+        self.sound.play()
+
+    def on_stop(self):
+        self.sound.stop()
+
+    def on_leave(self):
+        pass
+
     def onBackBtn(self):
-        self.vid.state = 'stop'
-        self.remove_widget(self.vid)
+        self.sound.stop()
         self.manager.current = self.manager.list_of_prev_screens.pop()
+
 
 class ScreenTwo(Screen):
     def test_on_enter(self, vidname):
@@ -37,13 +53,14 @@ class ScreenOne(Screen):
     def onNextScreenAudio(self, btn, fileName):
         self.manager.list_of_prev_screens.append(btn.parent.name)
         self.manager.current = 'screen3'
-        self.manager.screen_two.test_on_enter('Resources/Audios/' + fileName +'.mp3')
+        self.manager.screen_three.test_on_enter('Resources/Audios/' + fileName +'.wav')
 
 class Manager(ScreenManager):
     transition = NoTransition()
     screen_one = ObjectProperty(None)
     screen_two = ObjectProperty(None)
     screen_three = ObjectProperty(None)
+    screen_four = ObjectProperty(None)
 
     def __init__(self, *args, **kwargs):
         super(Manager, self).__init__(*args, **kwargs)

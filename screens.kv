@@ -45,17 +45,13 @@
                 text: "Audio 1"
                 background_normal: ''
                 background_color: (0.94,0.49,0.25, 1) if self.state == 'normal' else (0, 0.502, 0, .75)
+                on_release: root.onNextScreenAudio(self, 'audio1')
 
             Button:
                 text: "Audio 2"
                 background_normal: ''
                 background_color: (0.93,0.36,0.24, 1) if self.state == 'normal' else (0, 0.502, 0, .75)
-
-            Button:
-                text: "Audio 3"
-                background_normal: ''
-                background_color: (0.78,0.25,0.29, 1) if self.state == 'normal' else (0, 0.502, 0, .75)
-
+                on_release: root.onNextScreenAudio(self, 'audio2')
 
 
 <ScreenTwo>:
@@ -72,12 +68,37 @@
                     with_previous: True
                     on_release: root.onBackBtn()
 
+<ScreenThree>:
+    GridLayout:
+        name: "ScreenGridAudio"
+        pos_hint: {'top': 1}
+        cols:1
+        rows:3
+        ActionBar:
+            pos_hint: {'top': 1}
+            height:'70sp'
+            ActionView:
+                ActionPrevious:
+                    with_previous: True
+                    on_release: root.onBackBtn()
+        BoxLayout:
+            orientation: 'horizontal'
+            Button:
+                id: music_button1
+                text:'play'
+                on_release: root.on_play()
+            Button:
+                id: music_button2
+                text:'stop'
+                on_release: root.on_stop()
+
+
 <Manager>:
     id: screen_manager
 
     screen_one: screen_one
     screen_two: screen_two
-
+    screen_three: screen_three
     ScreenOne:
         id: screen_one
         name: 'screen1'
@@ -88,9 +109,9 @@
         name: 'screen2'
         manager: screen_manager
 
-    ScreenTree:
-        id: screen_two
-        name: 'screen2'
+    ScreenThree:
+        id: screen_three
+        name: 'screen3'
         manager: screen_manager
 
 <VideoPlayer>:
